@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Loading Python Modules
+module load eb
+module load Miniconda2
+
+#Activating Virtual Environment
+source activate qiime1
+
+#Setting Temporary Directory
+export TMPDIR=~/qiime_tmp
+
+#Splitting 2018 Library
+echo "Splitting 2018 libraries at Q20"
+time split_libraries_fastq.py -i ~/bioc3301/2018_02_smb/SeqPrep_joined/seqprep_assembled.fastq.gz -m ~/bioc3301/2018_02_smb/map_complete_2018.tsv -o ~/bioc3301/2018_02_smb/demultiplex_Q20 -b ~/bioc3301/2018_02_smb/SeqPrep_joined/seqprep_assembled.fastq_barcodes.fastq -q 19 --rev_comp_mapping_barcodes --rev_comp_barcode
+
+#Counting 2018 Sequences
+echo "Counting 2018 sequences"
+time count_seqs.py -i ~/bioc3301/2018_02_smb/demultiplex_Q20/seqs.fna
+
+#Deactivating virtual environment
+source deactivate
