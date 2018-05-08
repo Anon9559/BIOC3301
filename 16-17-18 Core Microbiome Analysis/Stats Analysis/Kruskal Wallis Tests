@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load python modules
+module load eb
+module load Miniconda2
+
+#Activate virtual environment
+echo "activating virtual environment"
+source activate qiime1
+
+#Setting Temporary Directory
+export TMPDIR=~/qiime_tmp
+
+#Kruskal Wallis Test for 16 17 18 Core microbiome. L2 level. Year 
+echo "KW Test. 16 17 18 Merged CORE OTU table at L2. Year"
+time group_significance.py -i ~/bioc3301/all_years/summarised_core_OTUs/core_table_50_L2.biom -m ~/bioc3301/merged_map_updated.tsv -c Year -s kruskal_wallis -o ~/bioc3301/all_years/all_stats/all_kw_year_L2.txt
+echo "L2 Year complete"
+
+#Kruskal Wallis Tests
+echo "KW Test. 16 17 18 Merged CORE OTU table at L3. Year"
+time group_significance.py -i ~/bioc3301/all_years/summarised_core_OTUs/core_table_50_L3.biom -m ~/bioc3301/merged_map_updated.tsv -c Year -s kruskal_wallis -o ~/bioc3301/all_years/all_stats/all_kw_year_L3.txt
+echo "L3 Year complete"
+
+#deactivating virtual env
+source deactivate
