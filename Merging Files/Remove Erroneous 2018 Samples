@@ -1,0 +1,22 @@
+#/bin/bash
+#SBATCH -t 0:30:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#removing 2018 samples outside of Gordons Square gardens
+echo "removing samples from merged OTU table"
+time filter_samples_from_otu_table.py -i ~/bioc3301/merged_otu_table.biom -o ~/bioc3301/corrected_merged_otu_table.biom --sample_id_fp ~/bioc3301/ids.txt --negate_sample_id_fp
+
+#deactivating virtual environment
+echo "deactivating virtual environment"
+source deactivate
