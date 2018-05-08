@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading Virtual Env
+echo "activating virtual environment"
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#Merging 16 17 18 Maprs
+echo "merging map files"
+time merge_mapping_files.py -m map_18.tsv,map_16.tsv,map_17.tsv -o ~/bioc3301/merged_map.tsv
+
+#deactivating virtual environment
+source deactivate
