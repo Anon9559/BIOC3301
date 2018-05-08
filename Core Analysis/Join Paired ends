@@ -1,1 +1,22 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
 
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#joining paired ends
+echo "join paired ends of 2018 data"
+
+time join_paired_ends.py -m SeqPrep -b Index.fastq -f Read1.fastq -r Read2.fastq -o SeqPrep_joined_2
+
+#deactivate environment
+source deactivate
