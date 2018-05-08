@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+module load R
+
+#loading virutal environment
+echo "activating virtual environment"
+source activate qiime1
+
+#setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+#Adonis Test. Unweighted Unifrac. Year
+echo "performing adonis test 1. UUF. Year"
+time compare_categories.py -i ~/bioc3301/all_years/all_CDA/bdiv_even26786/unweighted_unifrac_dm.txt -m ~/bioc3301/merged_map_updated.tsv -c Year --method adonis -o ~/bioc3301/all_years/all_stats/adonis_year_UUF
+
+#Adonis Test. Weighted Unifrac. Year
+echo "performing adonis test 2. WUF. Year"
+time compare_categories.py -i ~/bioc3301/all_years/all_CDA/bdiv_even26786/weighted_unifrac_dm.txt -m ~/bioc3301/merged_map_updated.tsv -c Year --method adonis -o ~/bioc3301/all_years/all_stats/adonis_year_WUF
+
+
+#deactivate virtual environment
+source deactivate
