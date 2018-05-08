@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#Computing core microbiome of  merged OTU table. Erroneous 2018 samples removed
+echo "computing core microbiome for 16 17 18 dataset"
+time compute_core_microbiome.py -i ~/bioc3301/all_years/corrected_merged_otu_table.biom -o ~/bioc3301/all_years/all_core_microbiome --min_fraction_for_core 0.5
+
+#deactivate virtual environment
+source deactivate
