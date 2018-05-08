@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading Virtual Env
+echo "activating virtual environment"
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#Summarise L2  of 16 17 dataset using relative abundance
+echo "summarising Core microbiome of merged 16 17 OTU table by L2"
+summarize_taxa.py -i ~/bioc3301/16_17/1617_core_microbiome/core_table_50.biom -L 2 -o ~/bioc3301/16_17/summarised_core_OTUs
+
+#Summarise L3 using Relative Abundance
+echo "summarising core microbiome of merged 16 17 OTU table by L3"
+summarize_taxa.py -i ~/bioc3301/16_17/1617_core_microbiome/core_table_50.biom -L 3 -o ~/bioc3301/16_17/summarised_core_OTUs
+
+
+#Deactivating virtual environment
+source deactivate
