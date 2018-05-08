@@ -1,0 +1,30 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#building upmga cluster
+echo "building cluster 16 17"
+time upgma_cluster.py -i ~/bioc3301/16_17/1617_CDA/bdiv_even385956/unweighted_unifrac_dm.txt -o ~/bioc3301/upgma_clusters/1617_upgma.tre
+
+echo "building cluster 17 18"
+time upgma_cluster.py -i ~/bioc3301/17_18/1718_CDA/bdiv_even26717/unweighted_unifrac_dm.txt -o ~/bioc3301/upgma_clusters/1718_upgma.tre
+
+echo "building cluster 16 18"
+time upgma_cluster.py -i ~/bioc3301/16_18/1618_CDA/bdiv_even26650/unweighted_unifrac_dm.txt -o ~/bioc3301/upgma_clusters/1618_upgma.tre
+
+echo "building cluster all_years"
+time upgma_cluster.py -i ~/bioc3301/all_years/all_CDA/bdiv_even26786/unweighted_unifrac_dm.txt -o ~/bioc3301/upgma_clusters/all_upgma.tre
+
+#deactivate virtual env
+source deactivate
