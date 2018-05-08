@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+module load R
+
+#loading virutal environment
+echo "activating virtual environment"
+source activate qiime1
+
+#setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+#Comparing alpha diversity. PD Whole Tree. 16 17 Core microbiome
+echo "comparing alpha divesity. PD Wole tree. Year"
+time compare_alpha_diversity.py -i ~/bioc3301/16_17/1617_CDA/arare_max385956/alpha_div_collated/PD_whole_tree.txt -m ~/bioc3301/merged_map_updated.tsv -c Year -t nonparametric -o ~/bioc3301/16_17/1617_stats/alpha_year_PD
+
+#Deactivate virtual environment
+source deactivate
