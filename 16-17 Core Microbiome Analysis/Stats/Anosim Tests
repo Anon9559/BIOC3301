@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+module load R
+
+#loading virutal environment
+echo "activating virtual environment"
+source activate qiime1
+
+#setting temporary directory
+export TMPDIR=~/qiime_tmp
+
+#Anosim Test. weighted Unifrac. Year
+echo "performing anosim test"
+time compare_categories.py -i ~/bioc3301/16_17/1617_CDA/bdiv_even385956/weighted_unifrac_dm.txt -m ~/bioc3301/merged_map_updated.tsv -c Year --method anosim -o ~/bioc3301/16_17/1617_stats/anosim_year_WUF
+
+#Anosim Test. unweighted Unifrac. Year
+echo "performing anosim test"
+time compare_categories.py -i ~/bioc3301/16_17/1617_CDA/bdiv_even385956/unweighted_unifrac_dm.txt -m ~/bioc3301/merged_map_updated.tsv -c Year --method anosim -o ~/bioc3301/16_17/1617_stats/anosim_year_UUF
+
+#deactivate virtual environment
+source deactivate
