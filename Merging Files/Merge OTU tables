@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load python modules
+module load eb
+module load Miniconda2
+
+#Activate virtual environment
+echo "activating virtual environment"
+source activate qiime1
+
+#Setting Temporary Directory
+export TMPDIR=~/qiime_tmp
+
+#Merging OTU Tables
+echo "Merging 16 17 18 OTU tables"
+time merge_otu_tables.py -i otu_table_16.biom,otu_table_17.biom,otu_table_18.biom -o ~/bioc3301/merged_otu_table.biom
+
+#Deactivating Virtual Env
+source deactivate
