@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Loading Python Modules
+module load eb
+module load Miniconda2
+
+#Activating Virtual Environment
+source activate qiime1
+
+#Validating mapping file
+echo "validating 2018 mapping file"
+validate_mapping_file.py -m ~/bioc3301/2018_02_smb/map_complete_2018.tsv -o ~/bioc3301/2018_02_smb/
+
+#Deactivating Virtual Environment
+source deactivate
