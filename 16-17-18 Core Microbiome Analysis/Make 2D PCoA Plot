@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -t 0:30:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#making 2d PCoA Plot of 16 17 18 Core 50 microbiome table
+echo "make 2d plot"
+time make_2d_plots.py -i ~/bioc3301/all_years/all_CDA/bdiv_even26786/unweighted_unifrac_pc.txt -m ~/bioc3301/merged_map_updated.tsv -b Year -o ~/bioc3301/all_years/all_CDA/
+
+#deactivate virtual environment
+source deactivate
+~
