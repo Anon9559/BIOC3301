@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load python modules
+module load eb
+module load Miniconda2
+
+#Activate virtual environment
+echo "activating virtual environment"
+source activate qiime1
+
+#Setting Temporary Directory
+export TMPDIR=~/qiime_tmp
+
+#Core Diversity Analysis
+echo "carrying out CDA on 16 17 Core 50 biom table"
+core_diversity_analyses.py -i ~/bioc3301/16_17/1617_core_microbiome/core_table_50.biom -o ~/bioc3301/16_17/1617_CDA -m ~/bioc3301/merged_map_updated.tsv -e 385956 -t ~/SILVA_128_QIIME_release/trees/97/97_otus.tre --recover_from_failure -a -O 8
+
+#deactivating virtual environment
+source deactivate
