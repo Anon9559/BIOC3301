@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH -t 1:00:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load Modules
+module load eb
+module load Miniconda2
+
+#Loading VirtualEnv
+source activate qiime1
+
+#Setting TempDir
+export TMPDIR=~/qiime_tmp
+
+#building UPGMA cluster for 16 17 18 microbiome. Based on UUF
+echo "building cluster"
+time upgma_cluster.py -i ~/bioc3301/all_years/all_CDA/bdiv_even26786/unweighted_unifrac_dm.txt -o ~/bioc3301/all_years/all_CDA/upgma.tre
+
+#deactivate virtual env
+source deactivate
