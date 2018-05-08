@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -t 0:30:00
+#SBATCH -n 24
+#SBATCH -p short
+
+#Load python modules
+module load eb
+module load Miniconda2
+
+#Activate Virtual Environment
+echo "activating virtual environment"
+source activate qiime1
+
+#Set Temporary Directory
+export TMPDIR=~/qiime_tmp
+
+#Summarise 16 17 merged OTU table
+echo "summarising 16 17 core 50 BIOM table"
+biom summarize-table -i ~/bioc3301/16_17/1617_core_microbiome/core_table_50.biom -o ~/bioc3301/16_17/core50_table_summary.txt
+
+#deactivate virtual environment
+source deactivate
